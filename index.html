@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <style>
+        /* Paleta de colores basada en tu imagen */
+        :root {
+            --bg-dark: #222222;
+            --accent-yellow: #ffb800;
+            --text-light: #ffffff;
+            --text-muted: #999999;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Cabecera */
+        .header {
+            text-align: center;
+            padding: 40px 20px 20px;
+        }
+        .header h1 {
+            color: var(--accent-yellow);
+            font-size: 36px;
+            font-style: italic; /* Simulando la tipografía elegante */
+            margin: 0;
+            font-family: 'Georgia', serif;
+        }
+        .header h2 {
+            font-size: 40px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin: 0 0 10px 0;
+        }
+        .header p {
+            color: var(--text-muted);
+            font-size: 12px;
+            max-width: 300px;
+            margin: 0 auto 30px;
+            line-height: 1.5;
+        }
+
+        /* Contenedor del menú */
+        .menu-wrapper {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        /* Categoría (Ej. Sandwich, Burgers) */
+        .category-title {
+            color: var(--accent-yellow);
+            font-size: 24px;
+            font-style: italic;
+            font-family: 'Georgia', serif;
+            margin: 30px 0 15px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+        }
+
+        /* Fila de cada plato (Texto izquierda, Foto derecha) */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .item-details {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 5px;
+        }
+
+        .item-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .item-price {
+            font-size: 18px;
+            color: var(--accent-yellow);
+            font-weight: bold;
+        }
+
+        .item-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Círculos de imágenes */
+        .item-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--text-light);
+            object-fit: cover;
+            box-shadow: 0 0 15px rgba(255, 184, 0, 0.2);
+        }
+
+        /* Pie de página amarillo */
+        .footer {
+            background-color: var(--accent-yellow);
+            color: #000;
+            text-align: center;
+            padding: 20px;
+            font-weight: bold;
+        }
+        .footer span {
+            display: block;
+            font-size: 24px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Restaurant</h1>
+        <h2>MENU</h2>
+        <p>Lorem ipsum is simply dummy text of the printing and typesetting industry. It was popularised in the 1960s.</p>
+    </div>
+
+    <div class="menu-wrapper">
+        
+        <div class="category-title">Sandwich</div>
+        
+        <div class="menu-item">
+            <div class="item-details">
+                <div class="item-header">
+                    <h3 class="item-name">Food name</h3>
+                    <span class="item-price">$9</span>
+                </div>
+                <p class="item-desc">Lorem ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1619881589316-56c7f9e6b587?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Sandwich" class="item-image">
+        </div>
+
+        <div class="menu-item">
+            <div class="item-details">
+                <div class="item-header">
+                    <h3 class="item-name">Food name</h3>
+                    <span class="item-price">$9</span>
+                </div>
+                <p class="item-desc">Lorem ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Sandwich 2" class="item-image">
+        </div>
+
+        <div class="category-title">Burgers</div>
+
+        <div class="menu-item">
+            <div class="item-details">
+                <div class="item-header">
+                    <h3 class="item-name">Food name</h3>
+                    <span class="item-price">$9</span>
+                </div>
+                <p class="item-desc">Lorem ipsum is simply dummy text of the printing and typesetting industry.</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Burger" class="item-image">
+        </div>
+
+    </div>
+
+    <div class="footer">
+        For Delivery
+        <span>012 345 67 890</span>
+        <small>www.yourwebsite.com</small>
+    </div>
+
+</body>
+</html>
