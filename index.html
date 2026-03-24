@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menú - La Parrilla Burger</title>
+    <title>Menú - La Parrilla Burger & Grill</title>
     <style>
         :root {
             --bg-dark: #1a1a1a;
-            --accent-color: #ffb800; 
+            --accent-color: #ffb800; /* Dorado / Ámbar Premium */
             --text-light: #ffffff;
             --text-muted: #aaaaaa;
             --whatsapp-green: #25D366;
-            --hud-color: rgba(255, 184, 0, 0.8);
+            --card-bg: #222;
         }
 
         body {
@@ -19,287 +19,222 @@
             background-color: var(--bg-dark);
             color: var(--text-light);
             margin: 0; padding: 0; padding-bottom: 80px; 
-            overflow-x: hidden;
+            overflow-x: hidden; /* Vital para el efecto Parallax */
         }
 
-        /* --- VISTA DEL MENÚ --- */
-        #menu-view { display: block; }
-
+        /* --- CABECERA --- */
         .header {
             text-align: center; padding: 40px 20px 20px;
             background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
             border-bottom: 2px solid #333;
         }
         .header h1 { color: var(--accent-color); font-size: 38px; font-family: 'Georgia', serif; font-style: italic; margin: 0; }
-        .header p { color: var(--text-muted); font-size: 13px; margin: 10px auto 0; }
+        .header p { color: var(--text-muted); font-size: 13px; margin: 10px auto 0; text-transform: uppercase; letter-spacing: 2px; }
 
-        .menu-wrapper { max-width: 500px; margin: 0 auto; padding: 0 20px; }
+        /* --- CONTENEDOR DE LA CARTA --- */
+        .menu-wrapper { max-width: 500px; margin: 0 auto; padding: 0 15px; }
 
         .category-title {
             color: var(--accent-color); font-size: 22px; font-weight: bold; text-transform: uppercase;
             letter-spacing: 2px; margin: 40px 0 20px; border-bottom: 1px dashed #444; padding-bottom: 10px;
+            text-align: center;
         }
 
-        .menu-item {
+        /* --- DISEÑO DEL PLATO (MENÚ CARD) --- */
+        .menu-card {
             display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 25px; background: #222; padding: 15px; border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            margin-bottom: 30px; background-color: var(--card-bg); padding: 15px; border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            position: relative; /* Para el posicionamiento del botón */
         }
 
         .item-details { flex: 1; padding-right: 15px; }
-        .item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+        .item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
         .item-name { font-size: 17px; font-weight: bold; margin: 0; color: var(--text-light); }
         .item-price { font-size: 18px; color: var(--accent-color); font-weight: bold; }
-        .item-desc { font-size: 13px; color: var(--text-muted); margin: 0; line-height: 1.5; }
-        .item-image { width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--accent-color); object-fit: cover; }
+        .item-desc { font-size: 13px; color: var(--text-muted); margin: 0; line-height: 1.5; margin-bottom: 10px; }
 
-        .btn-ar-2d {
-            background: linear-gradient(45deg, #ffb800, #ff8c00);
-            color: #000; border: none; padding: 15px; border-radius: 8px;
-            font-weight: bold; font-size: 16px; width: 100%; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(255,184,0,0.4); margin-top: 10px;
-            display: flex; justify-content: center; align-items: center; gap: 10px;
+        /* --- MARCO FIJO PARA LA IMAGEN HOLOGRÁFICA --- */
+        .parallax-frame {
+            width: 100px; height: 100px; border-radius: 50%;
+            border: 2px solid var(--accent-color);
+            background: rgba(255,184,0,0.05); /* Sutil tinte dorado */
+            overflow: hidden; /* Contiene el movimiento de la imagen */
+            position: relative;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+            margin-left: 10px;
+            flex-shrink: 0; /* Evita que se encoja */
         }
 
-        .whatsapp-btn {
+        /* --- LA IMAGEN QUE SE MUEVE (EL HOLOGRAMA 2D) --- */
+        .moving-img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0; left: 0;
+            transition: transform 0.1s ease-out; /* Movimiento suave y responsivo */
+            filter: drop-shadow(0px 10px 10px rgba(0,0,0,0.7)); /* Da el efecto de estar despegada */
+            backface-visibility: hidden; /* Ayuda a la suavidad en iPhones */
+        }
+
+        /* --- BOTÓN DE PEDIDO PEQUEÑO EN LA CARTA --- */
+        .card-order-btn {
+            background-color: var(--whatsapp-green);
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .whatsapp-icon-inline { width: 16px; height: 16px; fill: currentColor; }
+
+        /* Botón de WhatsApp Flotante Global */
+        .whatsapp-btn-float {
             position: fixed; bottom: 25px; right: 20px; background-color: var(--whatsapp-green); color: white;
             text-decoration: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; font-size: 15px;
             display: flex; align-items: center; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 1000;
         }
-
-        /* --- VISTA DE CÁMARA (INTERFAZ HUD TIPO ESCÁNER) --- */
-        #camera-view {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #000; z-index: 9999; overflow: hidden;
-        }
-        
-        #video-bg { width: 100%; height: 100%; object-fit: cover; }
-
-        /* Contenedor que se mueve con el giroscopio */
-        #hologram-container {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 320px; height: 320px;
-            pointer-events: none;
-            transition: transform 0.15s ease-out; /* Movimiento suave, como flotando */
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-
-        /* La imagen de la hamburguesa */
-        #burger-overlay {
-            width: 100%;
-            filter: drop-shadow(0px 30px 20px rgba(0,0,0,0.8));
-            animation: float 3s ease-in-out infinite; /* Animación de flotar */
-        }
-
-        /* Tarjeta de información flotante en la cámara */
-        .hud-info-card {
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid var(--hud-color);
-            padding: 10px 20px;
-            border-radius: 30px;
-            color: white;
-            backdrop-filter: blur(5px);
-            margin-top: 15px;
-            text-align: center;
-            box-shadow: 0 0 15px rgba(255, 184, 0, 0.3);
-            animation: pulse-border 2s infinite;
-        }
-        .hud-info-card h3 { margin: 0; font-size: 16px; color: var(--accent-color); }
-        .hud-info-card p { margin: 5px 0 0 0; font-size: 14px; font-weight: bold; }
-
-        /* Elementos UI de la cámara */
-        .camera-ui-top {
-            position: absolute; top: 30px; left: 20px; right: 20px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        
-        .scanning-text {
-            color: var(--hud-color); font-family: monospace; font-size: 14px; letter-spacing: 2px;
-        }
-
-        .close-btn {
-            background: rgba(255, 255, 255, 0.2); border: 2px solid white;
-            color: white; width: 40px; height: 40px; border-radius: 50%;
-            font-weight: bold; font-size: 18px; cursor: pointer; backdrop-filter: blur(4px);
-        }
-
-        .btn-order-ar {
-            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-            background-color: var(--whatsapp-green); color: white; border: none;
-            padding: 15px 30px; border-radius: 50px; font-weight: bold; font-size: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5); cursor: pointer; text-decoration: none; display: flex; align-items: center; gap: 8px;
-        }
-
-        /* Efectos visuales */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-        @keyframes pulse-border {
-            0% { box-shadow: 0 0 5px var(--hud-color); }
-            50% { box-shadow: 0 0 20px var(--hud-color); }
-            100% { box-shadow: 0 0 5px var(--hud-color); }
-        }
-
-        /* Esquinas de escáner en la pantalla */
-        .viewfinder {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 350px; height: 400px; border: 2px solid rgba(255, 184, 0, 0.2);
-            pointer-events: none;
-        }
-        .viewfinder::before, .viewfinder::after {
-            content: ''; position: absolute; width: 40px; height: 40px; border-color: var(--hud-color); border-style: solid;
-        }
-        .viewfinder::before { top: -2px; left: -2px; border-width: 3px 0 0 3px; }
-        .viewfinder::after { bottom: -2px; right: -2px; border-width: 0 3px 3px 0; }
+        .whatsapp-icon { width: 24px; height: 24px; margin-right: 8px; fill: currentColor; }
     </style>
 </head>
 <body>
 
-    <div id="menu-view">
-        <div class="header">
-            <h1>La Parrilla</h1>
-            <p>Expertos en hamburguesas artesanales de autor.</p>
-        </div>
-
-        <div class="menu-wrapper">
-            
-            <div class="category-title">Plato Estrella (AR Visual)</div>
-            <div class="menu-item" style="display: block; text-align: center;">
-                <h3 class="item-name" style="color: var(--accent-color);">🌟 Experiencia Holográfica</h3>
-                <p class="item-desc" style="margin-bottom: 15px;">Compatible con todos los dispositivos. Abre la cámara para ver nuestro plato flotando en tu entorno.</p>
-                <button class="btn-ar-2d" onclick="openCamera()">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                    Escanear Mesa
-                </button>
-            </div>
-
-            <div class="category-title">Menú Principal</div>
-
-            <div class="menu-item">
-                <div class="item-details">
-                    <div class="item-header">
-                        <h3 class="item-name">La Clásica Parrillera</h3>
-                        <span class="item-price">$22.000</span>
-                    </div>
-                    <p class="item-desc">Carne de res angus 150g, queso cheddar derretido, lechuga fresca y tomate.</p>
-                </div>
-                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Hamburguesa Clásica" class="item-image">
-            </div>
-            
-            <div class="menu-item">
-                <div class="item-details">
-                    <div class="item-header">
-                        <h3 class="item-name">Monster Bacon</h3>
-                        <span class="item-price">$28.000</span>
-                    </div>
-                    <p class="item-desc">Doble carne de res 300g, cuádruple tocineta, cebolla caramelizada y BBQ.</p>
-                </div>
-                <img src="https://images.unsplash.com/photo-1594212848116-b83349b673dc?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Monster Bacon" class="item-image">
-            </div>
-        </div>
-
-        <a href="https://wa.me/573000000000?text=Hola,%20quiero%20hacer%20un%20pedido:" class="whatsapp-btn" target="_blank">
-            <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.031 0C5.385 0 0 5.384 0 12.032c0 2.12.553 4.198 1.602 6.035L.234 23.955l5.999-1.571a12.01 12.01 0 005.798 1.492h.004c6.645 0 12.03-5.385 12.03-12.034C24.066 5.385 18.679 0 12.031 0zm0 21.849a9.96 9.96 0 01-5.078-1.385l-.364-.216-3.774.989.998-3.682-.237-.378A9.973 9.973 0 012.053 12.03c0-5.503 4.48-9.983 9.982-9.983 5.5 0 9.98 4.48 9.98 9.983 0 5.503-4.48 9.983-9.98 9.983zm5.474-7.48c-.3-.15-1.776-.877-2.053-.978-.276-.1-.477-.15-.678.15-.2.301-.776.978-.952 1.178-.176.2-.352.226-.653.076-1.545-.776-2.656-1.427-3.65-2.884-.2-.301.002-.451.152-.601.127-.126.301-.351.452-.527.15-.176.2-.301.3-.502.102-.2.052-.377-.024-.527-.076-.15-.678-1.631-.928-2.233-.243-.585-.49-.505-.678-.514-.175-.008-.376-.008-.577-.008s-.527.075-.803.376c-.276.301-1.054 1.029-1.054 2.51s1.079 2.91 1.23 3.111c.15.2 2.12 3.235 5.138 4.536 1.815.783 2.508.847 3.42.716.745-.107 2.292-.937 2.616-1.841.325-.903.325-1.678.225-1.841-.101-.162-.377-.263-.678-.413z"/></svg>
-            Hacer Pedido
-        </a>
+    <div class="header">
+        <h1>La Parrilla</h1>
+        <p>Holographic Menu Concept</p>
     </div>
 
-    <div id="camera-view">
-        <video id="video-bg" autoplay playsinline></video>
-        
-        <div class="camera-ui-top">
-            <div class="scanning-text">● SISTEMA AR ACTIVO</div>
-            <button class="close-btn" onclick="closeCamera()">✕</button>
-        </div>
+    <div class="menu-wrapper">
+        <div class="category-title">Carta Interactiva</div>
 
-        <div class="viewfinder"></div>
-
-        <div id="hologram-container">
-            <img id="burger-overlay" src="https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png" alt="Hamburguesa">
-            <div class="hud-info-card">
-                <h3>La Clásica Parrillera</h3>
-                <p>$22.000</p>
+        <div class="menu-card">
+            <div class="item-details">
+                <div class="item-header">
+                    <h3 class="item-name">Hamburguesa Clásica</h3>
+                    <span class="item-price">$22.000</span>
+                </div>
+                <p class="item-desc">Carne angus 150g, queso cheddar, vegetales frescos y salsa especial.</p>
+                <a href="https://wa.me/573000000000?text=Hola,%20quiero%20pedir%20la%20Hamburguesa%20Clásica:" class="card-order-btn" target="_blank">
+                    <svg class="whatsapp-icon-inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.031 0C5.385 0 0 5.384 0 12.032c0 2.12.553 4.198 1.602 6.035L.234 23.955l5.999-1.571a12.01 12.01 0 005.798 1.492h.004c6.645 0 12.03-5.385 12.03-12.034C24.066 5.385 18.679 0 12.031 0zm0 21.849a9.96 9.96 0 01-5.078-1.385l-.364-.216-3.774.989.998-3.682-.237-.378A9.973 9.973 0 012.053 12.03c0-5.503 4.48-9.983 9.982-9.983 5.5 0 9.98 4.48 9.98 9.983 0 5.503-4.48 9.983-9.98 9.983zm5.474-7.48c-.3-.15-1.776-.877-2.053-.978-.276-.1-.477-.15-.678.15-.2.301-.776.978-.952 1.178-.176.2-.352.226-.653.076-1.545-.776-2.656-1.427-3.65-2.884-.2-.301.002-.451.152-.601.127-.126.301-.351.452-.527.15-.176.2-.301.3-.502.102-.2.052-.377-.024-.527-.076-.15-.678-1.631-.928-2.233-.243-.585-.49-.505-.678-.514-.175-.008-.376-.008-.577-.008s-.527.075-.803.376c-.276.301-1.054 1.029-1.054 2.51s1.079 2.91 1.23 3.111c.15.2 2.12 3.235 5.138 4.536 1.815.783 2.508.847 3.42.716.745-.107 2.292-.937 2.616-1.841.325-.903.325-1.678.225-1.841-.101-.162-.377-.263-.678-.413z"/></svg>
+                    Pedir
+                </a>
+            </div>
+            <div class="parallax-frame">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png" alt="Hamburguesa Clásica" class="moving-img">
             </div>
         </div>
-        
-        <a href="https://wa.me/573000000000?text=Hola,%20quiero%20pedir%20La%20Clásica%20Parrillera%20que%20vi%20en%20el%20visor%20AR:" class="btn-order-ar" target="_blank">
-            Lo quiero pedir
-        </a>
+
+        <div class="menu-card">
+            <div class="item-details">
+                <div class="item-header">
+                    <h3 class="item-name">Perro Suizo</h3>
+                    <span class="item-price">$18.000</span>
+                </div>
+                <p class="item-desc">Salchicha premium, full queso mozzarella, papita ripio y salsas.</p>
+                <a href="https://wa.me/573000000000?text=Hola,%20quiero%20pedir%20el%20Perro%20Suizo:" class="card-order-btn" target="_blank">
+                    <svg class="whatsapp-icon-inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.031 0C5.385 0 0 5.384 0 12.032c0 2.12.553 4.198 1.602 6.035L.234 23.955l5.999-1.571a12.01 12.01 0 005.798 1.492h.004c6.645 0 12.03-5.385 12.03-12.034C24.066 5.385 18.679 0 12.031 0zm0 21.849a9.96 9.96 0 01-5.078-1.385l-.364-.216-3.774.989.998-3.682-.237-.378A9.973 9.973 0 012.053 12.03c0-5.503 4.48-9.983 9.982-9.983 5.5 0 9.98 4.48 9.98 9.983 0 5.503-4.48 9.983-9.98 9.983zm5.474-7.48c-.3-.15-1.776-.877-2.053-.978-.276-.1-.477-.15-.678.15-.2.301-.776.978-.952 1.178-.176.2-.352.226-.653.076-1.545-.776-2.656-1.427-3.65-2.884-.2-.301.002-.451.152-.601.127-.126.301-.351.452-.527.15-.176.2-.301.3-.502.102-.2.052-.377-.024-.527-.076-.15-.678-1.631-.928-2.233-.243-.585-.49-.505-.678-.514-.175-.008-.376-.008-.577-.008s-.527.075-.803.376c-.276.301-1.054 1.029-1.054 2.51s1.079 2.91 1.23 3.111c.15.2 2.12 3.235 5.138 4.536 1.815.783 2.508.847 3.42.716.745-.107 2.292-.937 2.616-1.841.325-.903.325-1.678.225-1.841-.101-.162-.377-.263-.678-.413z"/></svg>
+                    Pedir
+                </a>
+            </div>
+            <div class="parallax-frame">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Hot_Dog_Transparent_Clip_Art.png" alt="Perro Suizo" class="moving-img">
+            </div>
+        </div>
+
+        <div class="menu-card">
+            <div class="item-details">
+                <div class="item-header">
+                    <h3 class="item-name">Pizza Slice</h3>
+                    <span class="item-price">$15.000</span>
+                </div>
+                <p class="item-desc">Porción gigante de pizza artesanal con pepperoni y mozzarella fundida.</p>
+                <a href="https://wa.me/573000000000?text=Hola,%20quiero%20pedir%20la%20Pizza%20Slice:" class="card-order-btn" target="_blank">
+                    <svg class="whatsapp-icon-inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.031 0C5.385 0 0 5.384 0 12.032c0 2.12.553 4.198 1.602 6.035L.234 23.955l5.999-1.571a12.01 12.01 0 005.798 1.492h.004c6.645 0 12.03-5.385 12.03-12.034C24.066 5.385 18.679 0 12.031 0zm0 21.849a9.96 9.96 0 01-5.078-1.385l-.364-.216-3.774.989.998-3.682-.237-.378A9.973 9.973 0 012.053 12.03c0-5.503 4.48-9.983 9.982-9.983 5.5 0 9.98 4.48 9.98 9.983 0 5.503-4.48 9.983-9.98 9.983zm5.474-7.48c-.3-.15-1.776-.877-2.053-.978-.276-.1-.477-.15-.678.15-.2.301-.776.978-.952 1.178-.176.2-.352.226-.653.076-1.545-.776-2.656-1.427-3.65-2.884-.2-.301.002-.451.152-.601.127-.126.301-.351.452-.527.15-.176.2-.301.3-.502.102-.2.052-.377-.024-.527-.076-.15-.678-1.631-.928-2.233-.243-.585-.49-.505-.678-.514-.175-.008-.376-.008-.577-.008s-.527.075-.803.376c-.276.301-1.054 1.029-1.054 2.51s1.079 2.91 1.23 3.111c.15.2 2.12 3.235 5.138 4.536 1.815.783 2.508.847 3.42.716.745-.107 2.292-.937 2.616-1.841.325-.903.325-1.678.225-1.841-.101-.162-.377-.263-.678-.413z"/></svg>
+                    Pedir
+                </a>
+            </div>
+            <div class="parallax-frame">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Transparent_Pizza.png" alt="Pizza Slice" class="moving-img">
+            </div>
+        </div>
+
+        <div class="menu-card">
+            <div class="item-details">
+                <div class="item-header">
+                    <h3 class="item-name">Arepa Parrillera</h3>
+                    <span class="item-price">$19.000</span>
+                </div>
+                <p class="item-desc">Arepa artesanal rellena de chorizo santarrosano asado, full queso y salsas.</p>
+                <a href="https://wa.me/573000000000?text=Hola,%20quiero%20pedir%20la%20Arepa%20Parrillera:" class="card-order-btn" target="_blank">
+                    <svg class="whatsapp-icon-inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.031 0C5.385 0 0 5.384 0 12.032c0 2.12.553 4.198 1.602 6.035L.234 23.955l5.999-1.571a12.01 12.01 0 005.798 1.492h.004c6.645 0 12.03-5.385 12.03-12.034C24.066 5.385 18.679 0 12.031 0zm0 21.849a9.96 9.96 0 01-5.078-1.385l-.364-.216-3.774.989.998-3.682-.237-.378A9.973 9.973 0 012.053 12.03c0-5.503 4.48-9.983 9.982-9.983 5.5 0 9.98 4.48 9.98 9.983 0 5.503-4.48 9.983-9.98 9.983zm5.474-7.48c-.3-.15-1.776-.877-2.053-.978-.276-.1-.477-.15-.678.15-.2.301-.776.978-.952 1.178-.176.2-.352.226-.653.076-1.545-.776-2.656-1.427-3.65-2.884-.2-.301.002-.451.152-.601.127-.126.301-.351.452-.527.15-.176.2-.301.3-.502.102-.2.052-.377-.024-.527-.076-.15-.678-1.631-.928-2.233-.243-.585-.49-.505-.678-.514-.175-.008-.376-.008-.577-.008s-.527.075-.803.376c-.276.301-1.054 1.029-1.054 2.51s1.079 2.91 1.23 3.111c.15.2 2.12 3.235 5.138 4.536 1.815.783 2.508.847 3.42.716.745-.107 2.292-.937 2.616-1.841.325-.903.325-1.678.225-1.841-.101-.162-.377-.263-.678-.413z"/></svg>
+                    Pedir
+                </a>
+            </div>
+            <div class="parallax-frame">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png" alt="Arepa Parrillera" class="moving-img">
+            </div>
+        </div>
+
     </div>
+
+    <a href="https://wa.me/573000000000?text=Hola,%20quiero%20más%20información%20del%20menú:" class="whatsapp-btn-float" target="_blank">
+        <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.031 0C5.385 0 0 5.384 0 12.032c0 2.12.553 4.198 1.602 6.035L.234 23.955l5.999-1.571a12.01 12.01 0 005.798 1.492h.004c6.645 0 12.03-5.385 12.03-12.034C24.066 5.385 18.679 0 12.031 0zm0 21.849a9.96 9.96 0 01-5.078-1.385l-.364-.216-3.774.989.998-3.682-.237-.378A9.973 9.973 0 012.053 12.03c0-5.503 4.48-9.983 9.982-9.983 5.5 0 9.98 4.48 9.98 9.983 0 5.503-4.48 9.983-9.98 9.983zm5.474-7.48c-.3-.15-1.776-.877-2.053-.978-.276-.1-.477-.15-.678.15-.2.301-.776.978-.952 1.178-.176.2-.352.226-.653.076-1.545-.776-2.656-1.427-3.65-2.884-.2-.301.002-.451.152-.601.127-.126.301-.351.452-.527.15-.176.2-.301.3-.502.102-.2.052-.377-.024-.527-.076-.15-.678-1.631-.928-2.233-.243-.585-.49-.505-.678-.514-.175-.008-.376-.008-.577-.008s-.527.075-.803.376c-.276.301-1.054 1.029-1.054 2.51s1.079 2.91 1.23 3.111c.15.2 2.12 3.235 5.138 4.536 1.815.783 2.508.847 3.42.716.745-.107 2.292-.937 2.616-1.841.325-.903.325-1.678.225-1.841-.101-.162-.377-.263-.678-.413z"/></svg>
+        Soporte
+    </a>
 
     <script>
-        const video = document.getElementById('video-bg');
-        const cameraView = document.getElementById('camera-view');
-        const menuView = document.getElementById('menu-view');
-        const hologram = document.getElementById('hologram-container');
+        // Seleccionamos todas las imágenes de la clase .moving-img
+        const images = document.querySelectorAll('.moving-img');
         
-        let stream = null;
+        // Base de orientación de referencia
         let initialBeta = null;
         let initialGamma = null;
 
+        // Función que mueve TODAS las imágenes sincronizadas
         function handleOrientation(event) {
+            // Anclamos la referencia en la primera lectura
             if (initialBeta === null && initialGamma === null) {
                 initialBeta = event.beta;
                 initialGamma = event.gamma;
             }
 
-            // Calculamos la diferencia
+            // Calculamos cuánto se inclinó el celular desde la base
             let deltaBeta = event.beta - initialBeta;
             let deltaGamma = event.gamma - initialGamma;
 
-            // Limitamos el movimiento para que no se salga de la pantalla
-            // clamp(valor, min, max)
-            let moveY = Math.max(-100, Math.min(100, deltaBeta * 3)); 
-            let moveX = Math.max(-100, Math.min(100, deltaGamma * 3));
+            // Sensibilidad del movimiento y límites (Clamping)
+            // Multiplicamos por 2 para que sea notorio pero suave.
+            // Clampeamos a +/- 20px para que no se corte la imagen dentro de su marco
+            let moveY = Math.max(-20, Math.min(20, deltaBeta * 2)); 
+            let moveX = Math.max(-20, Math.min(20, deltaGamma * 2));
 
-            // Aplicamos el movimiento con CSS
-            hologram.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+            // Aplicamos la rotación matemática y la traslación a cada imagen
+            images.forEach(img => {
+                // translate3d activa la aceleración por hardware del celular
+                img.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+            });
         }
 
-        async function openCamera() {
-            try {
-                // Solicitar cámara trasera
-                stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { facingMode: "environment" } 
-                });
-                video.srcObject = stream;
-                
-                menuView.style.display = "none";
-                cameraView.style.display = "block";
-
-                initialBeta = null; 
-                initialGamma = null;
-
-                // Solicitar permisos de giroscopio si es necesario (ej. iPhones)
-                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                    const permission = await DeviceOrientationEvent.requestPermission();
-                    if (permission === 'granted') {
-                        window.addEventListener('deviceorientation', handleOrientation);
-                    }
-                } else {
-                    // Android y navegadores estándar
-                    window.addEventListener('deviceorientation', handleOrientation);
-                }
-
-            } catch (err) {
-                alert("Para vivir la experiencia, permite el acceso a la cámara en tu navegador.");
-                console.error(err);
-            }
-        }
-
-        function closeCamera() {
-            if (stream) {
-                const tracks = stream.getTracks();
-                tracks.forEach(track => track.stop());
-            }
-            window.removeEventListener('deviceorientation', handleOrientation);
-            cameraView.style.display = "none";
-            menuView.style.display = "block";
-            hologram.style.transform = "translate(-50%, -50%)"; // Reset
+        // Activamos los sensores del giroscopio
+        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+            // Protocolo para iPhones: solicitar permiso táctil
+            document.body.addEventListener('click', function() {
+                DeviceOrientationEvent.requestPermission()
+                    .then(response => {
+                        if (response == 'granted') {
+                            window.addEventListener('deviceorientation', handleOrientation);
+                        }
+                    })
+                    .catch(console.error);
+            }, { once: true });
+        } else {
+            // Android y navegadores estándar
+            window.addEventListener('deviceorientation', handleOrientation);
         }
     </script>
 </body>
