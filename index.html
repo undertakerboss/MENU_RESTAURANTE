@@ -51,20 +51,22 @@
         .item-desc { font-size: 13px; color: var(--text-muted); margin: 0; line-height: 1.5; }
         .item-image { width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--accent-color); object-fit: cover; }
 
-        /* Estilos del botón AR */
+        /* Estilos del botón AR re-diseñado */
         .ar-button {
-            background-color: var(--accent-color);
+            background-color: rgba(255, 184, 0, 0.9); /* Ligeramente transparente */
             color: #000;
-            border: none;
+            border: 2px solid #fff;
             padding: 12px 20px;
-            border-radius: 8px;
+            border-radius: 30px;
             position: absolute;
-            bottom: 15px;
-            right: 15px;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             font-weight: bold;
             font-size: 14px;
-            box-shadow: 0 4px 10px rgba(255,184,0,0.5);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             cursor: pointer;
+            backdrop-filter: blur(4px);
         }
 
         .whatsapp-btn {
@@ -88,24 +90,25 @@
         
         <div class="category-title">Proyector AR 3D</div>
 
-        <div class="menu-item" style="display: block; text-align: center; padding: 0; overflow: hidden; border: 1px solid var(--accent-color); border-radius: 12px; position: relative;">
+        <div style="display: block; text-align: center; margin-bottom: 30px; position: relative;">
+            
             <model-viewer 
                 src="https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Avocado/glTF-Binary/Avocado.glb" 
                 ar 
-                ar-modes="webxr scene-viewer quick-look" 
+                ar-modes="scene-viewer quick-look webxr" 
                 camera-controls 
                 auto-rotate
                 shadow-intensity="1.5"
-                style="width: 100%; height: 300px; background-color: #111; touch-action: pan-y;">
+                environment-image="neutral"
+                style="width: 100%; height: 350px; background-color: transparent; touch-action: pan-y; outline: none;">
                 
                 <button slot="ar-button" class="ar-button">
-                    👋 Ver en mi mesa (AR)
+                    📷 Proyectar en la mesa
                 </button>
             </model-viewer>
-            <div style="padding: 15px; background: #222;">
-                <h3 class="item-name" style="color: var(--accent-color);">🌟 Demo 3D (Tócala y gira)</h3>
-                <p class="item-desc">Modelo de prueba. Ábrelo en tu mesa, acércate y mira los detalles reales.</p>
-            </div>
+            
+            <h3 style="color: var(--accent-color); margin-top: -10px;">🌟 Aguacate 3D Interactivo</h3>
+            <p style="color: var(--text-muted); font-size: 13px;">Gíralo con tu dedo o proyéctalo en tu entorno.</p>
         </div>
 
         <div class="category-title">Menú Principal</div>
