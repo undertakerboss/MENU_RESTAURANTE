@@ -20,11 +20,7 @@
             margin: 0;
             padding: 0;
             padding-bottom: 80px; 
-            overflow-x: hidden;
         }
-
-        /* --- VISTA DEL MENÚ --- */
-        #menu-view { display: block; }
 
         .header {
             text-align: center;
@@ -55,37 +51,22 @@
         .item-desc { font-size: 13px; color: var(--text-muted); margin: 0; line-height: 1.5; }
         .item-image { width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--accent-color); object-fit: cover; }
 
-        .btn-ar-2d {
-            background-color: var(--accent-color); color: #000; border: none; padding: 15px;
-            border-radius: 8px; font-weight: bold; font-size: 16px; width: 100%; cursor: pointer;
-            box-shadow: 0 4px 10px rgba(255,184,0,0.3); margin-top: 10px;
-        }
-
-        /* --- VISTA DE CÁMARA (AR 2D CON GIROSCOPIO) --- */
-        #camera-view {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #000; z-index: 9999; overflow: hidden;
-        }
-        
-        #video-bg { width: 100%; height: 100%; object-fit: cover; }
-
-        #burger-overlay {
+        /* Estilos del botón AR */
+        .ar-button {
+            background-color: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
             position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 320px; /* Tamaño impactante */
-            filter: drop-shadow(0px 25px 15px rgba(0,0,0,0.7)); /* Sombra fuerte para dar volumen */
-            pointer-events: none;
-            transition: transform 0.1s ease-out; /* Movimiento suave */
+            bottom: 15px;
+            right: 15px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(255,184,0,0.5);
+            cursor: pointer;
         }
 
-        #btn-close-camera {
-            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-            background-color: #ff3333; color: white; border: none; padding: 12px 25px;
-            border-radius: 30px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); cursor: pointer;
-        }
-
-        /* Botón de WhatsApp */
         .whatsapp-btn {
             position: fixed; bottom: 25px; right: 20px; background-color: var(--whatsapp-green); color: white;
             text-decoration: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; font-size: 15px;
@@ -93,122 +74,58 @@
         }
         .whatsapp-icon { width: 24px; height: 24px; margin-right: 8px; fill: currentColor; }
     </style>
+
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 </head>
 <body>
 
-    <div id="menu-view">
-        <div class="header">
-            <h1>La Parrilla</h1>
-            <p>Expertos en hamburguesas artesanales de autor.</p>
-        </div>
-
-        <div class="menu-wrapper">
-            <div class="category-title">Proyector AR</div>
-            <div class="menu-item" style="display: block; text-align: center;">
-                <h3 class="item-name" style="color: var(--accent-color);">🌟 Proyecta en tu mesa</h3>
-                <p class="item-desc" style="margin-bottom: 15px;">Abre tu cámara, apunta a la mesa e inclina tu celular para ver la magia.</p>
-                <button class="btn-ar-2d" onclick="openCamera()">📱 Abrir Cámara AR</button>
-            </div>
-
-            <div class="category-title">Menú Principal</div>
-
-            <div class="menu-item">
-                <div class="item-details">
-                    <div class="item-header">
-                        <h3 class="item-name">La Clásica Parrillera</h3>
-                        <span class="item-price">$22.000</span>
-                    </div>
-                    <p class="item-desc">Carne de res angus 150g, queso cheddar derretido, lechuga fresca y tomate.</p>
-                </div>
-                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Hamburguesa Clásica" class="item-image">
-            </div>
-        </div>
-
-        <a href="https://wa.me/573000000000?text=Hola,%20quiero%20hacer%20un%20pedido:" class="whatsapp-btn" target="_blank">
-            <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.031 0C5.385 0 0 5.384 0 12.032c0 2.12.553 4.198 1.602 6.035L.234 23.955l5.999-1.571a12.01 12.01 0 005.798 1.492h.004c6.645 0 12.03-5.385 12.03-12.034C24.066 5.385 18.679 0 12.031 0zm0 21.849a9.96 9.96 0 01-5.078-1.385l-.364-.216-3.774.989.998-3.682-.237-.378A9.973 9.973 0 012.053 12.03c0-5.503 4.48-9.983 9.982-9.983 5.5 0 9.98 4.48 9.98 9.983 0 5.503-4.48 9.983-9.98 9.983zm5.474-7.48c-.3-.15-1.776-.877-2.053-.978-.276-.1-.477-.15-.678.15-.2.301-.776.978-.952 1.178-.176.2-.352.226-.653.076-1.545-.776-2.656-1.427-3.65-2.884-.2-.301.002-.451.152-.601.127-.126.301-.351.452-.527.15-.176.2-.301.3-.502.102-.2.052-.377-.024-.527-.076-.15-.678-1.631-.928-2.233-.243-.585-.49-.505-.678-.514-.175-.008-.376-.008-.577-.008s-.527.075-.803.376c-.276.301-1.054 1.029-1.054 2.51s1.079 2.91 1.23 3.111c.15.2 2.12 3.235 5.138 4.536 1.815.783 2.508.847 3.42.716.745-.107 2.292-.937 2.616-1.841.325-.903.325-1.678.225-1.841-.101-.162-.377-.263-.678-.413z"/></svg>
-            Hacer Pedido
-        </a>
+    <div class="header">
+        <h1>La Parrilla</h1>
+        <p>Expertos en hamburguesas artesanales de autor.</p>
     </div>
 
-    <div id="camera-view">
-        <video id="video-bg" autoplay playsinline></video>
-        <img id="burger-overlay" src="https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png" alt="Hamburguesa">
-        <button id="btn-close-camera" onclick="closeCamera()">Volver al menú</button>
-    </div>
-
-    <script>
-        const video = document.getElementById('video-bg');
-        const cameraView = document.getElementById('camera-view');
-        const menuView = document.getElementById('menu-view');
-        const burger = document.getElementById('burger-overlay');
+    <div class="menu-wrapper">
         
-        let stream = null;
-        let initialBeta = null;
-        let initialGamma = null;
+        <div class="category-title">Proyector AR 3D</div>
 
-        // Función que mueve la hamburguesa con los sensores
-        function handleOrientation(event) {
-            // Guardamos la posición inicial como "Ancla"
-            if (!initialBeta && !initialGamma) {
-                initialBeta = event.beta;
-                initialGamma = event.gamma;
-            }
-
-            // Calculamos cuánto se inclinó el celular
-            let deltaBeta = event.beta - initialBeta;
-            let deltaGamma = event.gamma - initialGamma;
-
-            // Factor de sensibilidad (Multiplicamos para que el efecto sea notorio)
-            let moveY = deltaBeta * 5; 
-            let moveX = deltaGamma * 5;
-
-            // Aplicamos el movimiento CSS a la hamburguesa
-            burger.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
-        }
-
-        async function openCamera() {
-            try {
-                // Prender cámara
-                stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-                video.srcObject = stream;
+        <div class="menu-item" style="display: block; text-align: center; padding: 0; overflow: hidden; border: 1px solid var(--accent-color); border-radius: 12px; position: relative;">
+            <model-viewer 
+                src="https://cdn.jsdelivr.net/gh/KhronosGroup/glTF-Sample-Models/2.0/Avocado/glTF-Binary/Avocado.glb" 
+                ar 
+                ar-modes="webxr scene-viewer quick-look" 
+                camera-controls 
+                auto-rotate
+                shadow-intensity="1.5"
+                style="width: 100%; height: 300px; background-color: #111; touch-action: pan-y;">
                 
-                menuView.style.display = "none";
-                cameraView.style.display = "block";
+                <button slot="ar-button" class="ar-button">
+                    👋 Ver en mi mesa (AR)
+                </button>
+            </model-viewer>
+            <div style="padding: 15px; background: #222;">
+                <h3 class="item-name" style="color: var(--accent-color);">🌟 Demo 3D (Tócala y gira)</h3>
+                <p class="item-desc">Modelo de prueba. Ábrelo en tu mesa, acércate y mira los detalles reales.</p>
+            </div>
+        </div>
 
-                // Resetear el giroscopio al abrir
-                initialBeta = null; 
-                initialGamma = null;
+        <div class="category-title">Menú Principal</div>
 
-                // Solicitar permisos de giroscopio (Requerido para iPhones recientes)
-                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                    DeviceOrientationEvent.requestPermission()
-                        .then(response => {
-                            if (response == 'granted') {
-                                window.addEventListener('deviceorientation', handleOrientation);
-                            }
-                        })
-                        .catch(console.error);
-                } else {
-                    // Para Android, se activa directo
-                    window.addEventListener('deviceorientation', handleOrientation);
-                }
+        <div class="menu-item">
+            <div class="item-details">
+                <div class="item-header">
+                    <h3 class="item-name">La Clásica Parrillera</h3>
+                    <span class="item-price">$22.000</span>
+                </div>
+                <p class="item-desc">Carne de res angus 150g, queso cheddar derretido, lechuga fresca y tomate.</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Hamburguesa Clásica" class="item-image">
+        </div>
 
-            } catch (err) {
-                alert("Para ver la magia, debes darle permiso a la cámara.");
-            }
-        }
+    </div>
 
-        function closeCamera() {
-            if (stream) {
-                const tracks = stream.getTracks();
-                tracks.forEach(track => track.stop());
-            }
-            // Apagar giroscopio y restaurar menú
-            window.removeEventListener('deviceorientation', handleOrientation);
-            cameraView.style.display = "none";
-            menuView.style.display = "block";
-            burger.style.transform = "translate(-50%, -50%)"; // Devolver al centro
-        }
-    </script>
+    <a href="https://wa.me/573000000000?text=Hola,%20quiero%20hacer%20un%20pedido:" class="whatsapp-btn" target="_blank">
+        <svg class="whatsapp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.031 0C5.385 0 0 5.384 0 12.032c0 2.12.553 4.198 1.602 6.035L.234 23.955l5.999-1.571a12.01 12.01 0 005.798 1.492h.004c6.645 0 12.03-5.385 12.03-12.034C24.066 5.385 18.679 0 12.031 0zm0 21.849a9.96 9.96 0 01-5.078-1.385l-.364-.216-3.774.989.998-3.682-.237-.378A9.973 9.973 0 012.053 12.03c0-5.503 4.48-9.983 9.982-9.983 5.5 0 9.98 4.48 9.98 9.983 0 5.503-4.48 9.983-9.98 9.983zm5.474-7.48c-.3-.15-1.776-.877-2.053-.978-.276-.1-.477-.15-.678.15-.2.301-.776.978-.952 1.178-.176.2-.352.226-.653.076-1.545-.776-2.656-1.427-3.65-2.884-.2-.301.002-.451.152-.601.127-.126.301-.351.452-.527.15-.176.2-.301.3-.502.102-.2.052-.377-.024-.527-.076-.15-.678-1.631-.928-2.233-.243-.585-.49-.505-.678-.514-.175-.008-.376-.008-.577-.008s-.527.075-.803.376c-.276.301-1.054 1.029-1.054 2.51s1.079 2.91 1.23 3.111c.15.2 2.12 3.235 5.138 4.536 1.815.783 2.508.847 3.42.716.745-.107 2.292-.937 2.616-1.841.325-.903.325-1.678.225-1.841-.101-.162-.377-.263-.678-.413z"/></svg>
+        Hacer Pedido
+    </a>
 </body>
 </html>
