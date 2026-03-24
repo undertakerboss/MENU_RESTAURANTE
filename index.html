@@ -20,12 +20,11 @@
             margin: 0;
             padding: 0;
             padding-bottom: 80px; 
+            overflow-x: hidden;
         }
 
         /* --- VISTA DEL MENÚ --- */
-        #menu-view {
-            display: block;
-        }
+        #menu-view { display: block; }
 
         .header {
             text-align: center;
@@ -33,44 +32,19 @@
             background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
             border-bottom: 2px solid #333;
         }
-        .header h1 {
-            color: var(--accent-color);
-            font-size: 38px;
-            font-family: 'Georgia', serif;
-            font-style: italic;
-            margin: 0;
-        }
-        .header p {
-            color: var(--text-muted);
-            font-size: 13px;
-            margin: 10px auto 0;
-        }
+        .header h1 { color: var(--accent-color); font-size: 38px; font-family: 'Georgia', serif; font-style: italic; margin: 0; }
+        .header p { color: var(--text-muted); font-size: 13px; margin: 10px auto 0; }
 
-        .menu-wrapper {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+        .menu-wrapper { max-width: 500px; margin: 0 auto; padding: 0 20px; }
 
         .category-title {
-            color: var(--accent-color);
-            font-size: 22px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: 40px 0 20px;
-            border-bottom: 1px dashed #444;
-            padding-bottom: 10px;
+            color: var(--accent-color); font-size: 22px; font-weight: bold; text-transform: uppercase;
+            letter-spacing: 2px; margin: 40px 0 20px; border-bottom: 1px dashed #444; padding-bottom: 10px;
         }
 
         .menu-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            background: #222;
-            padding: 15px;
-            border-radius: 12px;
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 25px; background: #222; padding: 15px; border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
 
@@ -82,64 +56,40 @@
         .item-image { width: 85px; height: 85px; border-radius: 50%; border: 2px solid var(--accent-color); object-fit: cover; }
 
         .btn-ar-2d {
-            background-color: var(--accent-color);
-            color: #000;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 16px;
-            width: 100%;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(255,184,0,0.3);
-            margin-top: 10px;
+            background-color: var(--accent-color); color: #000; border: none; padding: 15px;
+            border-radius: 8px; font-weight: bold; font-size: 16px; width: 100%; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(255,184,0,0.3); margin-top: 10px;
         }
 
-        /* --- VISTA DE CÁMARA (AR 2D) --- */
+        /* --- VISTA DE CÁMARA (AR 2D CON GIROSCOPIO) --- */
         #camera-view {
-            display: none; /* Oculto por defecto */
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #000;
-            z-index: 9999;
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #000; z-index: 9999; overflow: hidden;
         }
         
-        #video-bg {
-            width: 100%; height: 100%;
-            object-fit: cover; /* Hace que la cámara llene la pantalla */
-        }
+        #video-bg { width: 100%; height: 100%; object-fit: cover; }
 
         #burger-overlay {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 280px; /* Tamaño de la hamburguesa */
-            filter: drop-shadow(0px 15px 10px rgba(0,0,0,0.6)); /* Da el efecto de estar sobre la mesa */
-            pointer-events: none; /* Para no interferir */
+            width: 320px; /* Tamaño impactante */
+            filter: drop-shadow(0px 25px 15px rgba(0,0,0,0.7)); /* Sombra fuerte para dar volumen */
+            pointer-events: none;
+            transition: transform 0.1s ease-out; /* Movimiento suave */
         }
 
         #btn-close-camera {
-            position: absolute;
-            bottom: 40px; left: 50%;
-            transform: translateX(-50%);
-            background-color: #ff3333;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: bold;
-            font-size: 16px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            cursor: pointer;
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            background-color: #ff3333; color: white; border: none; padding: 12px 25px;
+            border-radius: 30px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); cursor: pointer;
         }
 
         /* Botón de WhatsApp */
         .whatsapp-btn {
-            position: fixed; bottom: 25px; right: 20px;
-            background-color: var(--whatsapp-green); color: white;
-            text-decoration: none; padding: 12px 20px; border-radius: 50px;
-            font-weight: bold; font-size: 15px; display: flex; align-items: center;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 1000;
+            position: fixed; bottom: 25px; right: 20px; background-color: var(--whatsapp-green); color: white;
+            text-decoration: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; font-size: 15px;
+            display: flex; align-items: center; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); z-index: 1000;
         }
         .whatsapp-icon { width: 24px; height: 24px; margin-right: 8px; fill: currentColor; }
     </style>
@@ -153,11 +103,10 @@
         </div>
 
         <div class="menu-wrapper">
-            
             <div class="category-title">Proyector AR</div>
             <div class="menu-item" style="display: block; text-align: center;">
                 <h3 class="item-name" style="color: var(--accent-color);">🌟 Proyecta en tu mesa</h3>
-                <p class="item-desc" style="margin-bottom: 15px;">Abre tu cámara y mira cómo se vería nuestro plato estrella servido frente a ti.</p>
+                <p class="item-desc" style="margin-bottom: 15px;">Abre tu cámara, apunta a la mesa e inclina tu celular para ver la magia.</p>
                 <button class="btn-ar-2d" onclick="openCamera()">📱 Abrir Cámara AR</button>
             </div>
 
@@ -173,17 +122,6 @@
                 </div>
                 <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Hamburguesa Clásica" class="item-image">
             </div>
-            
-            <div class="menu-item">
-                <div class="item-details">
-                    <div class="item-header">
-                        <h3 class="item-name">Limonada Cerezada</h3>
-                        <span class="item-price">$8.000</span>
-                    </div>
-                    <p class="item-desc">Limonada natural frapeada con almíbar de cerezas y hielo.</p>
-                </div>
-                <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Limonada" class="item-image">
-            </div>
         </div>
 
         <a href="https://wa.me/573000000000?text=Hola,%20quiero%20hacer%20un%20pedido:" class="whatsapp-btn" target="_blank">
@@ -194,9 +132,7 @@
 
     <div id="camera-view">
         <video id="video-bg" autoplay playsinline></video>
-        
         <img id="burger-overlay" src="https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png" alt="Hamburguesa">
-        
         <button id="btn-close-camera" onclick="closeCamera()">Volver al menú</button>
     </div>
 
@@ -204,34 +140,74 @@
         const video = document.getElementById('video-bg');
         const cameraView = document.getElementById('camera-view');
         const menuView = document.getElementById('menu-view');
+        const burger = document.getElementById('burger-overlay');
+        
         let stream = null;
+        let initialBeta = null;
+        let initialGamma = null;
+
+        // Función que mueve la hamburguesa con los sensores
+        function handleOrientation(event) {
+            // Guardamos la posición inicial como "Ancla"
+            if (!initialBeta && !initialGamma) {
+                initialBeta = event.beta;
+                initialGamma = event.gamma;
+            }
+
+            // Calculamos cuánto se inclinó el celular
+            let deltaBeta = event.beta - initialBeta;
+            let deltaGamma = event.gamma - initialGamma;
+
+            // Factor de sensibilidad (Multiplicamos para que el efecto sea notorio)
+            let moveY = deltaBeta * 5; 
+            let moveX = deltaGamma * 5;
+
+            // Aplicamos el movimiento CSS a la hamburguesa
+            burger.style.transform = `translate(calc(-50% + ${moveX}px), calc(-50% + ${moveY}px))`;
+        }
 
         async function openCamera() {
             try {
-                // Pide permiso y usa la cámara trasera (environment)
-                stream = await navigator.mediaDevices.getUserMedia({ 
-                    video: { facingMode: "environment" } 
-                });
+                // Prender cámara
+                stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
                 video.srcObject = stream;
                 
-                // Oculta el menú y muestra la cámara
                 menuView.style.display = "none";
                 cameraView.style.display = "block";
+
+                // Resetear el giroscopio al abrir
+                initialBeta = null; 
+                initialGamma = null;
+
+                // Solicitar permisos de giroscopio (Requerido para iPhones recientes)
+                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    DeviceOrientationEvent.requestPermission()
+                        .then(response => {
+                            if (response == 'granted') {
+                                window.addEventListener('deviceorientation', handleOrientation);
+                            }
+                        })
+                        .catch(console.error);
+                } else {
+                    // Para Android, se activa directo
+                    window.addEventListener('deviceorientation', handleOrientation);
+                }
+
             } catch (err) {
-                alert("Para ver la hamburguesa en tu mesa, debes darle permiso a la cámara en el navegador.");
-                console.error("Error al acceder a la cámara:", err);
+                alert("Para ver la magia, debes darle permiso a la cámara.");
             }
         }
 
         function closeCamera() {
-            // Detiene la cámara para ahorrar batería
             if (stream) {
                 const tracks = stream.getTracks();
                 tracks.forEach(track => track.stop());
             }
-            // Oculta la cámara y muestra el menú
+            // Apagar giroscopio y restaurar menú
+            window.removeEventListener('deviceorientation', handleOrientation);
             cameraView.style.display = "none";
             menuView.style.display = "block";
+            burger.style.transform = "translate(-50%, -50%)"; // Devolver al centro
         }
     </script>
 </body>
