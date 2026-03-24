@@ -6,12 +6,12 @@
     <title>Menú - La Parrilla Burger & Grill</title>
     <style>
         :root {
-            --bg-dark: #1a1a1a;
-            --accent-color: #ffb800; /* Dorado / Ámbar Premium */
+            --bg-dark: #141414; /* Fondo un poco más oscuro para resaltar los platos */
+            --accent-color: #ffb800;
             --text-light: #ffffff;
             --text-muted: #aaaaaa;
             --whatsapp-green: #25D366;
-            --card-bg: #222;
+            --card-bg: #1e1e1e;
         }
 
         body {
@@ -19,19 +19,18 @@
             background-color: var(--bg-dark);
             color: var(--text-light);
             margin: 0; padding: 0; padding-bottom: 80px; 
-            overflow-x: hidden; /* Vital para el efecto Parallax */
+            overflow-x: hidden; 
         }
 
         /* --- CABECERA --- */
         .header {
             text-align: center; padding: 40px 20px 20px;
-            background: linear-gradient(180deg, #000000 0%, #1a1a1a 100%);
+            background: linear-gradient(180deg, #000000 0%, var(--bg-dark) 100%);
             border-bottom: 2px solid #333;
         }
         .header h1 { color: var(--accent-color); font-size: 38px; font-family: 'Georgia', serif; font-style: italic; margin: 0; }
         .header p { color: var(--text-muted); font-size: 13px; margin: 10px auto 0; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* --- CONTENEDOR DE LA CARTA --- */
         .menu-wrapper { max-width: 500px; margin: 0 auto; padding: 0 15px; }
 
         .category-title {
@@ -40,60 +39,62 @@
             text-align: center;
         }
 
-        /* --- DISEÑO DEL PLATO (MENÚ CARD) --- */
+        /* --- DISEÑO DE LA CARTA (FONDO) --- */
         .menu-card {
             display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: 30px; background-color: var(--card-bg); padding: 15px; border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            position: relative; /* Para el posicionamiento del botón */
+            margin-bottom: 40px; /* Más espacio para que los platos no choquen */
+            background-color: var(--card-bg); padding: 20px 15px; border-radius: 15px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8), 0 5px 15px rgba(0,0,0,0.5);
+            position: relative; 
+            z-index: 1;
         }
 
-        .item-details { flex: 1; padding-right: 15px; }
+        .item-details { flex: 1; padding-right: 20px; z-index: 2; }
         .item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
-        .item-name { font-size: 17px; font-weight: bold; margin: 0; color: var(--text-light); }
-        .item-price { font-size: 18px; color: var(--accent-color); font-weight: bold; }
-        .item-desc { font-size: 13px; color: var(--text-muted); margin: 0; line-height: 1.5; margin-bottom: 10px; }
+        .item-name { font-size: 18px; font-weight: bold; margin: 0; color: var(--text-light); text-shadow: 1px 1px 3px black; }
+        .item-price { font-size: 19px; color: var(--accent-color); font-weight: bold; text-shadow: 1px 1px 3px black; }
+        .item-desc { font-size: 13px; color: #cccccc; margin: 0; line-height: 1.5; margin-bottom: 12px; }
 
-        /* --- MARCO FIJO PARA LA IMAGEN HOLOGRÁFICA --- */
-        .parallax-frame {
-            width: 100px; height: 100px; border-radius: 50%;
-            border: 2px solid var(--accent-color);
-            background: rgba(255,184,0,0.05); /* Sutil tinte dorado */
-            overflow: hidden; /* Contiene el movimiento de la imagen */
-            position: relative;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+        /* --- CONTENEDOR PARALLAX (El que se mueve con el celular) --- */
+        .parallax-container {
+            width: 110px; height: 110px;
             margin-left: 10px;
-            flex-shrink: 0; /* Evita que se encoja */
+            flex-shrink: 0; 
+            position: relative;
+            z-index: 10; /* Asegura que el plato esté MUY al frente */
         }
 
-        /* --- LA IMAGEN QUE SE MUEVE (EL HOLOGRAMA 2D) --- */
-        .moving-img {
-            width: 100%; height: 100%;
-            object-fit: cover;
+        /* --- LA IMAGEN QUE GIRA (EL PLATO FLOTANTE 3D) --- */
+        .spinning-plate {
+            width: 160%; /* Hace que el plato se salga de los bordes de la tarjeta */
+            height: 160%;
+            object-fit: contain;
             position: absolute;
-            top: 0; left: 0;
-            transition: transform 0.1s ease-out; /* Movimiento suave y responsivo */
-            filter: drop-shadow(0px 10px 10px rgba(0,0,0,0.7)); /* Da el efecto de estar despegada */
-            backface-visibility: hidden; /* Ayuda a la suavidad en iPhones */
+            top: -30%; /* Centra la imagen grande */
+            left: -30%;
+            /* Sombra profunda desplazada para crear el efecto de altura 3D */
+            filter: drop-shadow(-15px 25px 15px rgba(0,0,0,0.9)); 
+            animation: spin 25s linear infinite; /* Animación de rotación constante */
+            backface-visibility: hidden; 
         }
 
-        /* --- BOTÓN DE PEDIDO PEQUEÑO EN LA CARTA --- */
-        .card-order-btn {
-            background-color: var(--whatsapp-green);
-            color: white;
-            text-decoration: none;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 13px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        /* --- ANIMACIÓN DE ROTACIÓN --- */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
+
+        /* --- BOTÓN DE PEDIDO --- */
+        .card-order-btn {
+            background-color: var(--whatsapp-green); color: white; text-decoration: none;
+            padding: 8px 18px; border-radius: 20px; font-weight: bold; font-size: 13px;
+            display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            transition: transform 0.2s;
+        }
+        .card-order-btn:active { transform: scale(0.95); }
         .whatsapp-icon-inline { width: 16px; height: 16px; fill: currentColor; }
 
-        /* Botón de WhatsApp Flotante Global */
+        /* Botón Global */
         .whatsapp-btn-float {
             position: fixed; bottom: 25px; right: 20px; background-color: var(--whatsapp-green); color: white;
             text-decoration: none; padding: 12px 20px; border-radius: 50px; font-weight: bold; font-size: 15px;
@@ -106,7 +107,7 @@
 
     <div class="header">
         <h1>La Parrilla</h1>
-        <p>Holographic Menu Concept</p>
+        <p>Experiencia Holográfica Inmersiva</p>
     </div>
 
     <div class="menu-wrapper">
@@ -124,8 +125,8 @@
                     Pedir
                 </a>
             </div>
-            <div class="parallax-frame">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png" alt="Hamburguesa Clásica" class="moving-img">
+            <div class="parallax-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png" alt="Hamburguesa Clásica" class="spinning-plate">
             </div>
         </div>
 
@@ -141,9 +142,8 @@
                     Pedir
                 </a>
             </div>
-            <div class="parallax-frame">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Hot_Dog_Transparent_Clip_Art.png" alt="Perro Suizo" class="moving-img">
-            </div>
+            <div class="parallax-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Hot_Dog_Transparent_Clip_Art.png" alt="Perro Suizo" class="spinning-plate" style="animation-direction: reverse;"> </div>
         </div>
 
         <div class="menu-card">
@@ -158,8 +158,8 @@
                     Pedir
                 </a>
             </div>
-            <div class="parallax-frame">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Transparent_Pizza.png" alt="Pizza Slice" class="moving-img">
+            <div class="parallax-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Transparent_Pizza.png" alt="Pizza Slice" class="spinning-plate">
             </div>
         </div>
 
@@ -175,8 +175,8 @@
                     Pedir
                 </a>
             </div>
-            <div class="parallax-frame">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png" alt="Arepa Parrillera" class="moving-img">
+            <div class="parallax-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png" alt="Arepa Parrillera" class="spinning-plate" style="animation-direction: reverse;">
             </div>
         </div>
 
@@ -188,41 +188,32 @@
     </a>
 
     <script>
-        // Seleccionamos todas las imágenes de la clase .moving-img
-        const images = document.querySelectorAll('.moving-img');
+        // Seleccionamos los contenedores que van a reaccionar al giroscopio
+        const parallaxContainers = document.querySelectorAll('.parallax-container');
         
-        // Base de orientación de referencia
         let initialBeta = null;
         let initialGamma = null;
 
-        // Función que mueve TODAS las imágenes sincronizadas
         function handleOrientation(event) {
-            // Anclamos la referencia en la primera lectura
             if (initialBeta === null && initialGamma === null) {
                 initialBeta = event.beta;
                 initialGamma = event.gamma;
             }
 
-            // Calculamos cuánto se inclinó el celular desde la base
             let deltaBeta = event.beta - initialBeta;
             let deltaGamma = event.gamma - initialGamma;
 
-            // Sensibilidad del movimiento y límites (Clamping)
-            // Multiplicamos por 2 para que sea notorio pero suave.
-            // Clampeamos a +/- 20px para que no se corte la imagen dentro de su marco
-            let moveY = Math.max(-20, Math.min(20, deltaBeta * 2)); 
-            let moveX = Math.max(-20, Math.min(20, deltaGamma * 2));
+            // Suavizado del movimiento
+            let moveY = Math.max(-25, Math.min(25, deltaBeta * 1.5)); 
+            let moveX = Math.max(-25, Math.min(25, deltaGamma * 1.5));
 
-            // Aplicamos la rotación matemática y la traslación a cada imagen
-            images.forEach(img => {
-                // translate3d activa la aceleración por hardware del celular
-                img.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+            // Aplicamos la traslación al CONTENEDOR (no a la imagen, para no romper el giro)
+            parallaxContainers.forEach(container => {
+                container.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
             });
         }
 
-        // Activamos los sensores del giroscopio
         if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-            // Protocolo para iPhones: solicitar permiso táctil
             document.body.addEventListener('click', function() {
                 DeviceOrientationEvent.requestPermission()
                     .then(response => {
@@ -233,7 +224,6 @@
                     .catch(console.error);
             }, { once: true });
         } else {
-            // Android y navegadores estándar
             window.addEventListener('deviceorientation', handleOrientation);
         }
     </script>
