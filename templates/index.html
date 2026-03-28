@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú - La Parrilla Burger & Grill</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+
+    <div class="header">
+        <h1>La Parrilla</h1>
+        <p>Pedido Directo a Cocina</p>
+    </div>
+
+    <div class="menu-wrapper">
+        <div class="category-title">Carta Interactiva</div>
+
+        <div class="menu-card">
+            <div class="item-details">
+                <div class="item-header">
+                    <h3 class="item-name">Hamburguesa Clásica</h3>
+                    <span class="item-price">$22.000</span>
+                </div>
+                <p class="item-desc">Carne angus 150g, queso cheddar, vegetales y salsa de la casa.</p>
+                <button class="card-order-btn" onclick="openCart('Hamburguesa Clásica', 22000)">
+                    ➕ Agregar
+                </button>
+            </div>
+            <div class="parallax-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png" alt="Hamburguesa" class="spinning-plate">
+            </div>
+        </div>
+
+        <div class="menu-card">
+            <div class="item-details">
+                <div class="item-header">
+                    <h3 class="item-name">Perro Suizo</h3>
+                    <span class="item-price">$18.000</span>
+                </div>
+                <p class="item-desc">Salchicha premium, full queso mozzarella, papita ripio y salsas.</p>
+                <button class="card-order-btn" onclick="openCart('Perro Suizo', 18000)">
+                    ➕ Agregar
+                </button>
+            </div>
+            <div class="parallax-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Hot_dog_with_mustard.png" alt="Perro Suizo" class="spinning-plate" style="animation-direction: reverse;">
+            </div>
+        </div>
+
+        <div class="menu-card">
+            <div class="item-details">
+                <div class="item-header">
+                    <h3 class="item-name">Pizza Slice</h3>
+                    <span class="item-price">$15.000</span>
+                </div>
+                <p class="item-desc">Porción gigante de pepperoni con mozzarella fundida.</p>
+                <button class="card-order-btn" onclick="openCart('Pizza Slice', 15000)">
+                    ➕ Agregar
+                </button>
+            </div>
+            <div class="parallax-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Transparent_Pizza.png" alt="Pizza" class="spinning-plate">
+            </div>
+        </div>
+
+        <div class="menu-card">
+            <div class="item-details">
+                <div class="item-header">
+                    <h3 class="item-name">Arepa Parrillera</h3>
+                    <span class="item-price">$19.000</span>
+                </div>
+                <p class="item-desc">Arepa artesanal rellena de chorizo santarrosano asado.</p>
+                <button class="card-order-btn" onclick="openCart('Arepa Parrillera', 19000)">
+                    ➕ Agregar
+                </button>
+            </div>
+            <div class="parallax-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png" alt="Arepa" class="spinning-plate" style="animation-direction: reverse;">
+            </div>
+        </div>
+
+    </div>
+
+    <button class="cart-float-btn" id="cartBtn" onclick="openCart()" style="display: none;">
+        🛒 Ver Pedido (<span id="cartCount">0</span>) - <span id="cartTotalBtn">$0</span>
+    </button>
+
+    <div class="modal-overlay" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Tu Comanda</h2>
+                <button class="close-btn" onclick="closeCart()">×</button>
+            </div>
+            
+            <div id="cartItemsList"></div>
+
+            <div class="upsell-box" id="upsellBox">
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                    <input type="checkbox" id="comboUpsell" value="6000" onchange="updateCartTotal()">
+                    <div>
+                        <strong style="color: var(--text-dark);">¿Agrandar con Papas y Gaseosa?</strong><br>
+                        <span style="color: var(--accent-color);">+ $6.000 (Promoción)</span>
+                    </div>
+                </label>
+            </div>
+
+            <div class="checkout-form">
+                <input type="text" id="clientName" placeholder="Tu Nombre (Para entregarte en la mesa)" required>
+                
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <div style="flex: 1; background: #F8F8F8; padding: 10px; border-radius: 8px; border: 1px solid #DDD;">
+                        <span style="font-size: 12px; color: var(--text-muted);">MESA N°</span>
+                        <input type="number" id="tableNumber" placeholder="Ej: 4" style="width: 100%; background: transparent; border: none; color: var(--accent-color); font-size: 20px; font-weight: bold; outline: none;">
+                    </div>
+                </div>
+                
+                <textarea id="orderNotes" rows="2" placeholder="Notas a cocina: Sin cebolla, salsas aparte..."></textarea>
+            </div>
+
+            <div class="total-section">
+                <span>TOTAL A PAGAR:</span>
+                <span id="finalTotalDisplay" style="color: var(--accent-color); font-size: 24px; font-weight: bold;">$0</span>
+            </div>
+
+            <button class="btn-confirm-order" onclick="sendToKitchen()">
+                🔥 Enviar Comanda a Cocina
+            </button>
+        </div>
+    </div>
+
+    <script src="static/js/app.js"></script>
+</body>
+</html>

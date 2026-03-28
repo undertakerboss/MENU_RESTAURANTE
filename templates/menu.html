@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú - {{ restaurante.nombre }}</title>
+    <style>
+        :root { --primary: #ff4757; --bg: #f1f2f6; --text: #2f3542; --card: #ffffff; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; }
+        .header { background-color: var(--primary); color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 20px 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .header h1 { margin: 0; font-size: 24px; text-transform: uppercase; letter-spacing: 1px; }
+        .menu-container { padding: 20px; max-width: 600px; margin: 0 auto; }
+        .plato-card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border-left: 5px solid var(--primary); }
+        .plato-info h3 { margin: 0 0 5px 0; font-size: 18px; color: var(--text); }
+        .plato-precio { font-weight: bold; font-size: 1.2em; color: #2ed573; background: #e8f8f5; padding: 5px 12px; border-radius: 20px; }
+        .footer { text-align: center; padding: 20px; font-size: 12px; color: #747d8c; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>{{ restaurante.nombre }}</h1>
+        <p style="margin-top: 5px; opacity: 0.9;">Nuestro menú digital</p>
+    </div>
+    
+    <div class="menu-container">
+        {% for plato in platos %}
+        <div class="plato-card">
+            <div class="plato-info">
+                <h3>{{ plato.nombre }}</h3>
+            </div>
+            <div class="plato-precio">
+                ${{ "{:,.0f}".format(plato.precio) }}
+            </div>
+        </div>
+        {% else %}
+        <p style="text-align: center; color: #747d8c;">El menú se está actualizando...</p>
+        {% endfor %}
+    </div>
+
+    <div class="footer">Generado por AMS 1.0 Smart QR</div>
+</body>
+</html>
