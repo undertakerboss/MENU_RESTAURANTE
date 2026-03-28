@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú - La Parrilla Burger & Grill</title>
-    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
 </head>
 <body>
 
@@ -16,71 +16,24 @@
     <div class="menu-wrapper">
         <div class="category-title">Carta Interactiva</div>
 
+        {% for plato in platos %}
         <div class="menu-card">
             <div class="item-details">
                 <div class="item-header">
-                    <h3 class="item-name">Hamburguesa Clásica</h3>
-                    <span class="item-price">$22.000</span>
+                    <h3 class="item-name">{{ plato.nombre }}</h3>
+                    <span class="item-price">${{ "{:,}".format(plato.precio).replace(',', '.') }}</span>
                 </div>
-                <p class="item-desc">Carne angus 150g, queso cheddar, vegetales y salsa de la casa.</p>
-                <button class="card-order-btn" onclick="openCart('Hamburguesa Clásica', 22000)">
+                <p class="item-desc">{{ plato.descripcion }}</p>
+                <button class="card-order-btn" onclick="addToCart('{{ plato.nombre }}', {{ plato.precio }})">
                     ➕ Agregar
                 </button>
             </div>
             <div class="parallax-container">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png" alt="Hamburguesa" class="spinning-plate">
+                <img src="{{ plato.imagen }}" alt="{{ plato.nombre }}" class="spinning-plate" {% if loop.index % 2 == 0 %}style="animation-direction: reverse;"{% endif %}>
             </div>
         </div>
-
-        <div class="menu-card">
-            <div class="item-details">
-                <div class="item-header">
-                    <h3 class="item-name">Perro Suizo</h3>
-                    <span class="item-price">$18.000</span>
-                </div>
-                <p class="item-desc">Salchicha premium, full queso mozzarella, papita ripio y salsas.</p>
-                <button class="card-order-btn" onclick="openCart('Perro Suizo', 18000)">
-                    ➕ Agregar
-                </button>
-            </div>
-            <div class="parallax-container">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Hot_dog_with_mustard.png" alt="Perro Suizo" class="spinning-plate" style="animation-direction: reverse;">
-            </div>
+        {% endfor %}
         </div>
-
-        <div class="menu-card">
-            <div class="item-details">
-                <div class="item-header">
-                    <h3 class="item-name">Pizza Slice</h3>
-                    <span class="item-price">$15.000</span>
-                </div>
-                <p class="item-desc">Porción gigante de pepperoni con mozzarella fundida.</p>
-                <button class="card-order-btn" onclick="openCart('Pizza Slice', 15000)">
-                    ➕ Agregar
-                </button>
-            </div>
-            <div class="parallax-container">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/Transparent_Pizza.png" alt="Pizza" class="spinning-plate">
-            </div>
-        </div>
-
-        <div class="menu-card">
-            <div class="item-details">
-                <div class="item-header">
-                    <h3 class="item-name">Arepa Parrillera</h3>
-                    <span class="item-price">$19.000</span>
-                </div>
-                <p class="item-desc">Arepa artesanal rellena de chorizo santarrosano asado.</p>
-                <button class="card-order-btn" onclick="openCart('Arepa Parrillera', 19000)">
-                    ➕ Agregar
-                </button>
-            </div>
-            <div class="parallax-container">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png" alt="Arepa" class="spinning-plate" style="animation-direction: reverse;">
-            </div>
-        </div>
-
-    </div>
 
     <button class="cart-float-btn" id="cartBtn" onclick="openCart()" style="display: none;">
         🛒 Ver Pedido (<span id="cartCount">0</span>) - <span id="cartTotalBtn">$0</span>
@@ -111,7 +64,7 @@
                 <div style="display: flex; gap: 10px; margin-top: 10px;">
                     <div style="flex: 1; background: #F8F8F8; padding: 10px; border-radius: 8px; border: 1px solid #DDD;">
                         <span style="font-size: 12px; color: var(--text-muted);">MESA N°</span>
-                        <input type="number" id="tableNumber" placeholder="Ej: 4" style="width: 100%; background: transparent; border: none; color: var(--accent-color); font-size: 20px; font-weight: bold; outline: none;">
+                        <input type="number" id="tableNumber" value="{{ mesa_id or '' }}" placeholder="Ej: 4" style="width: 100%; background: transparent; border: none; color: var(--accent-color); font-size: 20px; font-weight: bold; outline: none;" {% if mesa_id %}readonly{% endif %}>
                     </div>
                 </div>
                 
@@ -129,6 +82,6 @@
         </div>
     </div>
 
-    <script src="static/js/app.js"></script>
+    <script src="{{ url_for('static', path='js/app.js') }}"></script>
 </body>
 </html>

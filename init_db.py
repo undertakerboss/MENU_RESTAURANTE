@@ -1,49 +1,36 @@
+import sqlite3
 
-# init_db.py
-from main import SessionLocal, Restaurante, Plato
+def crear_base_datos():
+    # Conectamos (o creamos) la base de datos
+    conexion = sqlite3.connect('restaurantes.db')
+    cursor = conexion.cursor()
 
-def inicializar_datos():
-    # Abrimos conexión a la base de datos
-    db = SessionLocal()
-
-    try:
-        # Verificamos si ya existe el restaurante para no duplicar
-        if db.query(Restaurante).first():
-            print("Los datos ya fueron inicializados anteriormente.")
-            return
-
-        # 1. Creamos el Restaurante
-        nuevo_restaurante = Restaurante(nombre="Restaurante Demo (MVP)")
-        db.add(nuevo_restaurante)
-        db.commit() # Guardamos para que se le asigne un ID (será el ID 1)
-        db.refresh(nuevo_restaurante)
-
-        # 2. Creamos los Platos vinculados al Restaurante ID 1
-        plato1 = Plato(
-            restaurante_id=nuevo_restaurante.id, 
-            nombre="Hamburguesa Sencilla", 
-            precio=20000, 
-            disponible=True
+    # Creamos la tabla desde cero
+    cursor.execute('DROP TABLE IF EXISTS platos')
+    cursor.execute('''
+        CREATE TABLE platos (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            descripcion TEXT,
+            precio INTEGER NOT NULL,
+            imagen TEXT,
+            disponible BOOLEAN NOT NULL CHECK (disponible IN (0, 1))
         )
-        plato2 = Plato(
-            restaurante_id=nuevo_restaurante.id, 
-            nombre="Salchipapa Especial", 
-            precio=15000, 
-            disponible=True
-        )
+    ''')
 
-        # Inyectamos los platos a la base de datos
-        db.add(plato1)
-        db.add(plato2)
-        db.commit()
+    # Insertamos nuestros 4 platos iniciales (disponible = 1)
+    platos_iniciales = [
+        ('Hamburguesa Clásica', 'Carne angus 150g, queso cheddar, vegetales y salsa.', 22000, 'https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png', 1),
+        ('Perro Suizo', 'Salchicha premium, full queso mozzarella, papita ripio y salsas.', 18000, 'https://upload.wikimedia.org/wikipedia/commons/b/b1/Hot_dog_with_mustard.png', 1),
+        ('Pizza Slice', 'Porción gigante de pepperoni con mozzarella fundida.', 15000, 'https://upload.wikimedia.org/wikipedia/commons/6/67/Transparent_Pizza.png', 1),
+        ('Arepa Parrillera', 'Arepa artesanal rellena de chorizo santarrosano asado.', 19000, 'https://upload.wikimedia.org/wikipedia/commons/1/11/Cheeseburger.png', 1)
+    ]
 
-        print("Inyección de datos exitosa. Base de datos lista.")
+    cursor.executemany('INSERT INTO platos (nombre, descripcion, precio, imagen, disponible) VALUES (?, ?, ?, ?, ?)', platos_iniciales)
+    
+    conexion.commit()
+    conexion.close()
+    print("✅ Base de datos 'restaurantes.db' inicializada con éxito. Platos cargados.")
 
-    except Exception as e:
-        print(f"Error en la inyección de datos: {e}")
-        db.rollback()
-    finally:
-        db.close() # Siempre cerramos la conexión por seguridad
-
-if __name__ == "__main__":
-    inicializar_datos()
+if __name__ == '__main__':
+    crear_base_datos()
